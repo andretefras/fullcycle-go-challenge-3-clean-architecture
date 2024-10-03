@@ -43,17 +43,17 @@ func main() {
 	})
 
 	createOrderUseCase := NewCreateOrderUseCase(db, eventDispatcher)
-	//listOrderUseCase := NewListOrdersUseCase(db)
+	listOrdersUseCase := NewListOrdersUseCase(db)
 
-	webserver := webserver.NewWebServer(configs.WebServerPort)
+	httpServer := webserver.NewWebServer(configs.WebServerPort)
 	webOrderHandler := NewWebOrderHandler(db, eventDispatcher)
-	webserver.AddHandler("/order", webOrderHandler.List)
-	webserver.AddHandler("/create", webOrderHandler.Create)
+	httpServer.AddHandler("/order", webOrderHandler.List)
+	httpServer.AddHandler("/create", webOrderHandler.Create)
 	fmt.Println("Starting web server on port", configs.WebServerPort)
-	go webserver.Start()
+	go httpServer.Start()
 
 	grpcServer := grpc.NewServer()
-	createOrderService := service.NewOrderService(*createOrderUseCase)
+	createOrderService := service.NewOrderService(*createOrderUseCase, *listOrdersUseCase)
 	pb.RegisterOrderServiceServer(grpcServer, createOrderService)
 	reflection.Register(grpcServer)
 
@@ -62,7 +62,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	go grpcServer.Serve(lis)
+	go func() {
+		err := grpcServer.Serve(lis)
+		if err != nil {
+			panic(err)
+		}
+	}()
 
 	srv := graphqlhandler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
 		CreateOrderUseCase: *createOrderUseCase,

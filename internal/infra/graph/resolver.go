@@ -8,4 +8,5 @@ import "github.com/andretefras/fullcycle-go-challenge-3-clean-architecture/inter
 
 type Resolver struct {
 	CreateOrderUseCase usecase.CreateOrderUseCase
+	ListOrdersUseCase  usecase.ListOrdersUseCase
 }

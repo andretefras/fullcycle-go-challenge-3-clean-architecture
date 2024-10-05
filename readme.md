@@ -8,7 +8,7 @@ O servidor de banco de dados local pode ser executado a partir do comando abaixo
 
 O banco de dados MySql será provisionado realizando a criação do banco de dados automaticamente.
 
-Caso tenha alguma problema local e precise popular o banco de dados basta importar o arquivo `configs/database.sql`.
+Caso precise popular o banco de dados manualmente, basta importar o arquivo `configs/database.sql`.
 
 Os arquivos .http encontram-se no diretório `api`.
 

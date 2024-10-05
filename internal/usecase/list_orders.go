@@ -1,6 +1,6 @@
 package usecase
 
-import "github.com/devfullcycle/20-CleanArch/internal/entity"
+import "github.com/andretefras/fullcycle-go-challenge-3-clean-architecture/internal/entity"
 
 type ListOrdersUseCase struct {
 	OrderRepository entity.OrderRepositoryInterface

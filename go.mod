@@ -1,4 +1,4 @@
-module github.com/devfullcycle/20-CleanArch
+module github.com/andretefras/fullcycle-go-challenge-3-clean-architecture
 
 go 1.19
 
